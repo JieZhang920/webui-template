@@ -1,0 +1,24 @@
+#!/bin/sh
+status_file=/tmp/upload.txt
+log_file=/var/log/upload.log
+time=[$(date "+%Y-%m-%d %H:%M:%S")]
+region=`printenv ihr360.config.region`
+if [ ! -f $log_file ]
+then
+touch $log_file
+fi
+
+if [ -f $status_file ]
+then
+    exit 0
+else
+    versionfilepath=$(find /opt -name 'info.json')
+    jsondata=$(cat ${versionfilepath})
+    result=`curl -v -H "Content-Type:application/json" -X POST -d "${jsondata}" https://${WEB_MONITOR}/gateway/noauth/appPackageConfig/provider/appPackage/configInfo/update`
+    if [ ${result}"x" == "successx" ]
+    then
+      touch ${status_file}
+    fi
+    log_info=$time" [INFO] access: POST "${region}" https://${WEB_MONITOR}/gateway/noauth/appPackageConfig/provider/appPackage/configInfo/update "$result
+    echo $log_info >>$log_file
+fi

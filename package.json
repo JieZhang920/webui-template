@@ -1,0 +1,115 @@
+{
+    "name": "ihr360-webui-template-static",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@sentry/types": "5.10.0",
+        "@sentry/webpack-plugin": "1.11.1",
+        "@types/intl": "1.2.0",
+        "@types/lodash": "4.14.138",
+        "@types/prop-types": "15.5.8",
+        "@types/react": "16.8.8",
+        "@types/react-dom": "16.8.4",
+        "@types/react-intl": "2.3.8",
+        "@types/react-router-dom": "4.3.4",
+        "clean-css": "4.2.1",
+        "http-proxy-middleware": "0.19.1",
+        "ihr360-config-plugin": "0.0.3",
+        "ihr360-web-ui": "3.3.23",
+        "intl": "1.2.5",
+        "loadash": "1.0.0",
+        "react": "16.10.2",
+        "react-app-rewire-less": "2.1.3",
+        "react-dom": "16.9.0",
+        "react-intl": "2.4.0",
+        "readline": "1.3.0",
+        "ts-jest": "22.0.1",
+        "uglifyjs-webpack-plugin": "1.2.5",
+        "url-search-params-polyfill": "7.0.0"
+    },
+    "scripts": {
+        "build-vendor": "cross-env NODE_ENV=production webpack --config webpack.dll.config.js --colors --display-modules",
+        "start": "irs-react-scripts-plugin start",
+        "build": "cross-env NODE_ENV_LAN=zh_CN NODE_ENV_Trans=https://qa.ihr360.com irs-react-scripts-plugin build",
+        "build:zh_CN_QA": "cross-env PUSH_NODE_ENV=qa2 NODE_ENV_LAN=zh_CN NODE_ENV_Trans=https://qa2.ihr360.com irs-react-scripts-plugin build",
+        "build:en_QA": "cross-env PUSH_NODE_ENV=qa2 NODE_ENV_LAN=en NODE_ENV_Trans=https://qa2.ihr360.com irs-react-scripts-plugin build",
+        "build:ja_QA": "cross-env PUSH_NODE_ENV=qa2 NODE_ENV_LAN=ja NODE_ENV_Trans=https://qa2.ihr360.com irs-react-scripts-plugin build",
+        "build:zh_CN_Beta": "cross-env PUSH_NODE_ENV=beta NODE_ENV_LAN=zh_CN NODE_ENV_Trans=https://uatstable.ihr360.com irs-react-scripts-plugin build",
+        "build:en_Beta": "cross-env PUSH_NODE_ENV=beta NODE_ENV_LAN=en NODE_ENV_Trans=https://uatstable.ihr360.com irs-react-scripts-plugin build",
+        "build:ja_Beta": "cross-env PUSH_NODE_ENV=beta NODE_ENV_LAN=ja NODE_ENV_Trans=https://uatstable.ihr360.com irs-react-scripts-plugin build",
+        "build:zh_CN_QA2": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=zh_CN NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "build:en_QA2": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=en NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "build:ja_QA2": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=ja NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "build:zh_CN": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=zh_CN NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "build:en": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=en NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "build:ja": "cross-env PUSH_NODE_ENV=production NODE_ENV_LAN=ja NODE_ENV_Trans=https://www.ihr360.com irs-react-scripts-plugin build",
+        "lint-staged": "lint-staged",
+        "upload": "scp -r build-zh_CN/* ubuntu@192.168.1.242:/etc/nginx/web/ihr360-web-ui/template",
+        "build-document": "npm run build && npm run upload"
+    },
+    "devDependencies": {
+        "@types/jest": "22.2.3",
+        "@types/node": "10.0.4",
+        "less": "2.7.3",
+        "react-router-dom": "5.0.1"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js,jsx,ts,tsx}"
+        ],
+        "setupFiles": [
+            "<rootDir>/config/polyfills.js"
+        ],
+        "testMatch": [
+            "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
+            "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"
+        ],
+        "testEnvironment": "node",
+        "testURL": "http://localhost",
+        "transform": {
+            "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
+            "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
+            "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+            "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+        },
+        "transformIgnorePatterns": [
+            "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
+        ],
+        "moduleNameMapper": {
+            "^react-native$": "react-native-web"
+        },
+        "moduleFileExtensions": [
+            "web.ts",
+            "ts",
+            "web.tsx",
+            "tsx",
+            "web.js",
+            "js",
+            "web.jsx",
+            "jsx",
+            "json",
+            "node",
+            "mjs"
+        ],
+        "globals": {
+            "ts-jest": {
+                "tsConfigFile": "D:\\workplace\\irenshi-convenient-admin\\tsconfig.test.json"
+            }
+        }
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "*.{ts,tsx,d.ts}": [
+            "tslint",
+            "git add"
+        ]
+    }
+}
